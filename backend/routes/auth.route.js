@@ -8,13 +8,11 @@ import {
 import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
-// Auth Rotues
+// 로그인 전에 해줄것
 router.post("/signup", signup);
-
 router.post("/login", login);
-
 router.post("/logout", logout);
-
+// 로그인 후에
 router.post("/profile-update", verifyToken, profileUpdate);
 
 export default router;

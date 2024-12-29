@@ -100,8 +100,6 @@ export const logout = (req, res) => {
 export const profileUpdate = async (req, res) => {
   try {
     const user = req.user;
-    console.log(user);
-    console.log("USER_ID", user._id);
     const { profilePic } = req.body;
     if (!user) {
       return res
@@ -114,6 +112,7 @@ export const profileUpdate = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       user._id,
       { profilePic: updatedProfilePic },
+      // 갱신해주기
       { new: true }
     );
     return res.status(200).json({ success: true, updatedUser: updatedUser });
