@@ -49,7 +49,7 @@ export const signup = async (req, res, next) => {
   }
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -99,14 +99,17 @@ export const logout = (req, res) => {
 
 export const profileUpdate = async (req, res) => {
   try {
-    const { profilePic } = req.body;
     const user = req.user;
+    console.log(user);
+    console.log("USER_ID", user._id);
+    const { profilePic } = req.body;
     if (!user) {
       return res
         .status(400)
         .json({ success: false, message: "CANNOT FIND THE USER" });
     }
     const upload = await cloudinary.uploader.upload(profilePic);
+
     const updatedProfilePic = upload.secure_url;
     const updatedUser = await User.findByIdAndUpdate(
       user._id,
