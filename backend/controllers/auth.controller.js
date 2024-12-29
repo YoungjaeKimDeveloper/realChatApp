@@ -61,11 +61,11 @@ export const login = async (req, res) => {
       "+password"
     );
     if (!user) {
-      return res.status(400).json({ success: false, messagE: "INVALID USER" });
+      return res.status(400).json({ success: false, message: "INVALID USER" });
     }
     const isPasswordMatching = await bcrypt.compare(password, user.password);
     if (!isPasswordMatching) {
-      return res.status(400).json({ success: false, messagE: "INVALID USER" });
+      return res.status(400).json({ success: false, message: "INVALID USER" });
     }
     return res.status(200).json({
       success: true,
@@ -76,7 +76,16 @@ export const login = async (req, res) => {
   } catch (error) {}
 };
 
-export const logout = () => {
+export const logout = (req, res) => {
   try {
-  } catch (error) {}
+    res.cookie("jwt", "", {
+      maxAge: 0,
+    });
+    return res.status(200).json({ success: true, message: "LOGGOUT ✅" });
+  } catch (error) {
+    console.error("FAILED TO LOGOUT", error.message);
+    return res
+      .status(400)
+      .json({ success: false, message: `LOGGOUT ❌ ${error.message}` });
+  }
 };
