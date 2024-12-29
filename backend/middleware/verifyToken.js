@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.model";
-export const verifyToken = async (req, res) => {
+export const verifyToken = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
     if (!token) {
@@ -8,12 +8,13 @@ export const verifyToken = async (req, res) => {
     }
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     if (!decoded) {
-      return res
-        .status(400)
-        .json({ success: false, message: "FAILED TO DECODE" });
+      return res.status(400);
+      // .json({ success: false, message: "FAILED TO DECODE" });
     }
     const user = await User.find({ _id: decoded.userId });
-    return res.status(200).json({ user: user });
+    // 이는 통과된 유저입니다!
+    req.user = user;
+    next();
   } catch (error) {
     console.error("FAILED TO VERIFY TOKEN ❌", error.message);
     return res.status(500).json({

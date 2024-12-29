@@ -1,7 +1,8 @@
 import { generateToken } from "../middleware/token.js";
 import { User } from "../models/User.model.js";
 import bcrypt from "bcrypt";
-export const signup = async (req, res) => {
+import cloudinary from "../lib/cloudinary.js";
+export const signup = async (req, res, next) => {
   try {
     // 유저가 입력한 Info
     let { email, fullName, password } = req.body;
@@ -33,7 +34,7 @@ export const signup = async (req, res) => {
       password: encryptedPassword,
     });
     // console.log("New User Created✅");
-    generateToken(newUser._id, res);
+    generateToken(newUser._id, res, next);
     return res.status(201).json({
       success: true,
       message: "New User Created✅",
@@ -67,13 +68,19 @@ export const login = async (req, res) => {
     if (!isPasswordMatching) {
       return res.status(400).json({ success: false, message: "INVALID USER" });
     }
+    generateToken(user._id, res, next);
     return res.status(200).json({
       success: true,
       user: {
         email,
       },
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error("FAILED TO LOGIN", error.message);
+    return res
+      .status(400)
+      .json({ success: false, message: `LOGIN ❌ ${error.message}` });
+  }
 };
 
 export const logout = (req, res) => {
@@ -87,5 +94,30 @@ export const logout = (req, res) => {
     return res
       .status(400)
       .json({ success: false, message: `LOGGOUT ❌ ${error.message}` });
+  }
+};
+
+export const profileUpdate = async (req, res) => {
+  try {
+    const { profilePic } = req.body;
+    const user = req.user;
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "CANNOT FIND THE USER" });
+    }
+    const upload = await cloudinary.uploader.upload(profilePic);
+    const updatedProfilePic = upload.secure_url;
+    const updatedUser = await User.findByIdAndUpdate(
+      user._id,
+      { profilePic: updatedProfilePic },
+      { new: true }
+    );
+    return res.status(200).json({ success: true, updatedUser: updatedUser });
+  } catch (error) {
+    console.error("FAILED TO UPDATE USER PROFILE", error.message);
+    return res
+      .status(400)
+      .json({ success: false, message: "FAILED TO UPDATE USER PROFILE" });
   }
 };
