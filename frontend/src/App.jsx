@@ -8,7 +8,9 @@ import ProfilePage from "./pages/Profile.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
+import { useAuthStore } from "./store/useAuthStore.js";
 const App = () => {
+  const { checkAuth } = useAuthStore();
   return (
     <div>
       <Navbar />

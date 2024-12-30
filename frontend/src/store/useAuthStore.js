@@ -31,7 +31,7 @@ export const useAuthStore = create((set, get) => ({
       const response = await axiosInstance.post("/auth/signup", data);
       set({ authUser: response.data.user });
 
-      toast.success(`Welcome ${response.data.user.fullName}`);
+      toast.success(`Welcome ${response.data.fullName}`);
     } catch (error) {
       console.error(`FAILED TO LOGIN, ${error.message}`);
       toast.error("FAILED TO signup: ", error.message);
