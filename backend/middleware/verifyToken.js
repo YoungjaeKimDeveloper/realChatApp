@@ -14,7 +14,7 @@ export const verifyToken = async (req, res, next) => {
       // .json({ success: false, message: "FAILED TO DECODE" });
     }
     const user = await User.findOne({ _id: decoded.userId });
-    // 이는 통과된 유저입니다!
+    // 다시 reqest 에 담아서 보내주기
     req.user = user;
     next();
   } catch (error) {

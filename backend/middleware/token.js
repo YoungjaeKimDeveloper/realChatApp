@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 // Validation
-export const generateToken = (userId, res, next) => {
+export const generateToken = (userId, res) => {
   try {
     const token = jwt.sign({ userId: userId }, process.env.SECRET_KEY, {
       expiresIn: "7d",
@@ -13,8 +13,8 @@ export const generateToken = (userId, res, next) => {
       sameSite: "strict", // SCRF attacks cross-site request forgery attacks
       secure: process.env.NODE_ENV !== "development",
     });
-    // return token;
-    next();
+
+    return token;
   } catch (error) {
     console.log("FAILED TO GENERATE TOKEN❗️", error.message);
     return res.status(500).json({

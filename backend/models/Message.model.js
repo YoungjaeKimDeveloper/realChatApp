@@ -12,7 +12,7 @@ const MessageSchema = new Schema(
       required: true,
       ref: "User",
     },
-    content: {
+    text: {
       type: String,
     },
     image: {

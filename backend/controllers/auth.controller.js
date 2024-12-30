@@ -49,7 +49,7 @@ export const signup = async (req, res, next) => {
   }
 };
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -68,7 +68,7 @@ export const login = async (req, res, next) => {
     if (!isPasswordMatching) {
       return res.status(400).json({ success: false, message: "INVALID USER" });
     }
-    generateToken(user._id, res, next);
+    generateToken(user._id, res);
     return res.status(200).json({
       success: true,
       user: {
@@ -98,6 +98,7 @@ export const logout = (req, res) => {
 };
 
 export const profileUpdate = async (req, res) => {
+  console.log(req.user);
   try {
     const user = req.user;
     const { profilePic } = req.body;
@@ -107,7 +108,6 @@ export const profileUpdate = async (req, res) => {
         .json({ success: false, message: "CANNOT FIND THE USER" });
     }
     const upload = await cloudinary.uploader.upload(profilePic);
-
     const updatedProfilePic = upload.secure_url;
     const updatedUser = await User.findByIdAndUpdate(
       user._id,
