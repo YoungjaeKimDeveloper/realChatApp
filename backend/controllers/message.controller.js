@@ -91,7 +91,7 @@ export const sendMessage = async (req, res) => {
       senderId: user_id,
       receiverId: partner_id,
       text: text,
-      image: imageUrl.secure_url,
+      image: imageUrl?.secure_url,
     });
     return res.status(201).json({ success: true, newMessage: newMessage });
   } catch (error) {
