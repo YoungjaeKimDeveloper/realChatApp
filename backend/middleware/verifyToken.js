@@ -10,7 +10,6 @@ export const verifyToken = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     if (!decoded) {
       return res.status(400);
-      3;
       // .json({ success: false, message: "FAILED TO DECODE" });
     }
     const user = await User.findOne({ _id: decoded.userId });

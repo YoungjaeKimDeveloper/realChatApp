@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Eye, EyeClosed } from "lucide-react";
+import { useAuthStore } from "../store/useAuthStore";
 const LoginPage = () => {
+  const { login } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [showText, setShowText] = useState(false);
   const toggleEyes = () => {
@@ -11,8 +13,13 @@ const LoginPage = () => {
     setShowText((prev) => !prev);
   };
   const [loginInfo, setLoginInfo] = useState({
-    
-  })
+    email: "",
+    password: "",
+  });
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login(loginInfo);
+  };
   return (
     <div className="my-201 m-auto my-20 flex h-[700px] w-4/5 items-center justify-center bg-red-50 rounded-2xl">
       <div className="flex w-full justify-between gap-x-4 h-full">
@@ -22,17 +29,31 @@ const LoginPage = () => {
             <h1 className=" text-4xl tracking-wider mb-10 animate-bounce font-black ">
               Welcome Back
             </h1>
-            <form className="flex flex-col items-center justify-center gap-y-4 w-full">
+            <form
+              className="flex flex-col items-center justify-center gap-y-4 w-full"
+              onSubmit={handleLogin}
+            >
               <input
                 type="text"
                 placeholder="welcome@gmail.com"
                 className="input w-full max-w-xs h-20 bg-green-100"
+                value={loginInfo.email}
+                onChange={(e) =>
+                  setLoginInfo((prev) => ({ ...prev, email: e.target.value }))
+                }
               />
               <div className="w-full max-w-xs relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="******"
                   className="input w-full max-w-xs h-20 bg-green-100"
+                  value={loginInfo.password}
+                  onChange={(e) =>
+                    setLoginInfo((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
                 />
                 {showPassword ? (
                   <Eye
@@ -46,7 +67,10 @@ const LoginPage = () => {
                   />
                 )}
               </div>
-              <button className="btn btn-wide tracking-wider bg-green-200 border-none">
+              <button
+                className="btn btn-wide tracking-wider bg-green-200 border-none"
+                type="submit"
+              >
                 login
               </button>
             </form>
