@@ -71,9 +71,7 @@ export const login = async (req, res) => {
     generateToken(user._id, res);
     return res.status(200).json({
       success: true,
-      user: {
-        email,
-      },
+      user: user,
     });
   } catch (error) {
     console.error("FAILED TO LOGIN", error.message);
@@ -127,13 +125,11 @@ export const profileUpdate = async (req, res) => {
 export const checkAuth = async (req, res) => {
   try {
     const user = req.user;
-
     if (!user) {
       return res
         .status(401)
         .json({ success: false, message: "USER NO AUTHORIZED ❌" });
     }
-
     return res.status(200).json({ success: true, user: user });
   } catch (error) {
     console.log("FAILED TO CHECKAUTH: ", error.message);
