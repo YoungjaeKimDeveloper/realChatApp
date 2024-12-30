@@ -123,3 +123,23 @@ export const profileUpdate = async (req, res) => {
       .json({ success: false, message: "FAILED TO UPDATE USER PROFILE" });
   }
 };
+
+export const checkAuth = async (req, res) => {
+  try {
+    const user = req.user;
+
+    if (!user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "USER NO AUTHORIZED ❌" });
+    }
+
+    return res.status(200).json({ success: true, user: user });
+  } catch (error) {
+    console.log("FAILED TO CHECKAUTH: ", error.message);
+    return res.status(400).json({
+      success: false,
+      message: `FAILED TO CHECK AUTH ${error.message}`,
+    });
+  }
+};

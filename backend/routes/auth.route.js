@@ -4,6 +4,7 @@ import {
   login,
   logout,
   profileUpdate,
+  checkAuth,
 } from "../controllers/auth.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
@@ -12,6 +13,9 @@ const router = express.Router();
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", logout);
+
+// Check Auth - req.user
+router.get("/checkAuth", verifyToken, checkAuth);
 // 로그인 후에
 router.post("/profile-update", verifyToken, profileUpdate);
 
