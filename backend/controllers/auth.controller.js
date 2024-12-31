@@ -5,7 +5,7 @@ import cloudinary from "../lib/cloudinary.js";
 export const signup = async (req, res) => {
   try {
     // 유저가 입력한 Info
-    console.log("Request Body", req.body);
+
     let { email, fullName, password } = req.body;
     // Validation...
     if (!email || !fullName || !password) {
@@ -20,10 +20,8 @@ export const signup = async (req, res) => {
       });
     }
     email = email.toLowerCase();
-    console.log("Checking for existing user with email:", email);
 
     const existedUser = await User.findOne({ email: email });
-    console.log("Existing user found:", existedUser);
 
     if (existedUser) {
       return res.status(400).json({ message: "Email existed❗️" });

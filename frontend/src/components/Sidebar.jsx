@@ -2,17 +2,17 @@ import React, { useEffect } from "react";
 import { Contact } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
 const Sidebar = () => {
-  const { users, isUserLoading, getUsers } = useChatStore();
+  const { users, isUserLoading, getUsers, selectUser, selectedUser } =
+    useChatStore();
   useEffect(() => {
     getUsers();
   }, [getUsers]);
   if (isUserLoading) {
     return <p>Loading..</p>;
   }
-
-  console.log(users);
+  console.log(selectedUser);
   return (
-    <div className="bg-red-200 w-1/4 rounded-xl px-2 h-full overflow-auto">
+    <div className="bg-red-200 w-[400px] rounded-xl px-2 h-full overflow-auto">
       <div className="flex items-center gap-x-2 py-4 rounded-xl">
         <Contact size={26} />
         <h1 className="font-semibold text-2xl">Contact</h1>
@@ -23,11 +23,12 @@ const Sidebar = () => {
             <div
               key={user._id}
               className="user tester flex items-center gap-x-2 hover:cursor-pointer"
+              onClick={() => selectUser(user)}
             >
               <img
-                src="../../public/avartar.png"
+                src={`${user.profilePic}` || "||../../public/avartar.png"}
                 alt="user-profile"
-                className="size-10"
+                className="size-10 rounded-full"
               />
               <div>
                 <p className="text-[12px]">{user.fullName}</p>

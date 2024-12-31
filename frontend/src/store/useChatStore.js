@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 export const useChatStore = create((set) => ({
   // State
   users: null,
+  selectedUser: null,
+  messages: [],
   // State - Loading
   isUserLoading: false,
   // Action
@@ -23,5 +25,20 @@ export const useChatStore = create((set) => ({
     } finally {
       set({ isUserLoading: false });
     }
+  },
+  sendMessage: async (selectedUser, message) => {
+    try {
+      const res = await axiosInstance.post(
+        `/message/send/${selectedUser._id}`,
+        message
+      );
+      
+    } catch (error) {}
+  },
+  selectUser: (user) => {
+    set({ selectedUser: user });
+  },
+  unSelectUser: () => {
+    set({ selectedUser: null });
   },
 }));
