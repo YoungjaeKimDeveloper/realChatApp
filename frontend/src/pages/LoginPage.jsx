@@ -79,7 +79,7 @@ const LoginPage = () => {
               className="mt-10 flex flex-col items-center gap-y-4"
             >
               <p>Do you want to join today?</p>
-              <p className="font-semibold tracking-wider underline text-sm text-pink-200">
+              <p className="font-semibold tracking-wider  text-sm text-pink-200">
                 Join Today
               </p>
             </Link>

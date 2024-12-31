@@ -8,6 +8,7 @@ export const useAuthStore = create((set, get) => ({
   isAuthLoading: false,
   isLoginLoading: false,
   isSignupLoading: false,
+  isProfileUploading: false,
   // Action
   login: async (loginForm) => {
     console.log("LOGINFORM", loginForm);
@@ -66,6 +67,24 @@ export const useAuthStore = create((set, get) => ({
       set({ authUser: null });
     } finally {
       set({ isAuthLoading: false });
+    }
+  },
+  updateProfilePic: async (profilePic) => {
+    console.log("ProfilePic", profilePic);
+    try {
+      set({ isProfileUploading: true });
+      const res = await axiosInstance.put("/auth/profile-update", {
+        profilePic: profilePic,
+      });
+
+      set({ authUser: res.data.updatedUser });
+      toast.success("Profile Picture Uploaded ✅");
+    } catch (error) {
+      console.log(error.message);
+      console.log("FAILED TO UPLOAD PROFILE", error?.response);
+      toast.error("FAILED TO UPLOAD IMAGE ❌");
+    } finally {
+      set({ isProfileUploading: false });
     }
   },
   //   Check the Auth Function

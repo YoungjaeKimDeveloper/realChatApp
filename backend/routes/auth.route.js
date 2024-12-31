@@ -17,6 +17,6 @@ router.post("/logout", logout);
 // Check Auth - req.user
 router.get("/checkAuth", verifyToken, checkAuth);
 // 로그인 후에
-router.post("/profile-update", verifyToken, profileUpdate);
+router.put("/profile-update", verifyToken, profileUpdate);
 
 export default router;
