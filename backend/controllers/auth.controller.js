@@ -2,9 +2,10 @@ import { generateToken } from "../middleware/token.js";
 import { User } from "../models/User.model.js";
 import bcrypt from "bcrypt";
 import cloudinary from "../lib/cloudinary.js";
-export const signup = async (req, res, next) => {
+export const signup = async (req, res) => {
   try {
     // 유저가 입력한 Info
+    console.log("Request Body", req.body);
     let { email, fullName, password } = req.body;
     // Validation...
     if (!email || !fullName || !password) {
@@ -19,7 +20,10 @@ export const signup = async (req, res, next) => {
       });
     }
     email = email.toLowerCase();
+    console.log("Checking for existing user with email:", email);
+
     const existedUser = await User.findOne({ email: email });
+    console.log("Existing user found:", existedUser);
 
     if (existedUser) {
       return res.status(400).json({ message: "Email existed❗️" });
@@ -34,7 +38,7 @@ export const signup = async (req, res, next) => {
       password: encryptedPassword,
     });
     // console.log("New User Created✅");
-    generateToken(newUser._id, res, next);
+    generateToken(newUser._id, res);
     return res.status(201).json({
       success: true,
       message: "New User Created✅",

@@ -12,7 +12,7 @@ const Sidebar = () => {
 
   console.log(users);
   return (
-    <div className="bg-red-200 w-1/4 rounded-xl px-2 h-full">
+    <div className="bg-red-200 w-1/4 rounded-xl px-2 h-full overflow-auto">
       <div className="flex items-center gap-x-2 py-4 rounded-xl">
         <Contact size={26} />
         <h1 className="font-semibold text-2xl">Contact</h1>

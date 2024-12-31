@@ -3,23 +3,40 @@ import { Link } from "react-router-dom";
 import { Eye, EyeClosed } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 const LoginPage = () => {
-  const { login } = useAuthStore();
+  // From Auth Store
+  const { signup, isSignupLoading } = useAuthStore();
+  // UseState
   const [showPassword, setShowPassword] = useState(false);
   const [showText, setShowText] = useState(false);
+  // Action
   const toggleEyes = () => {
     setShowPassword((prev) => !prev);
   };
   const toggleText = () => {
     setShowText((prev) => !prev);
   };
-  const [loginInfo, setLoginInfo] = useState({
+
+  const [signupInfo, setSignupInfo] = useState({
+    fullName: "",
     email: "",
     password: "",
   });
-  const handleLogin = (e) => {
+
+  // if (isSignupLoading) {
+  //   return (
+  //     <div className="h-screen w-screen flex items-center justify-center">
+  //       <span className="loading loading-ball loading-lg"></span>
+  //       <span className="loading loading-ball loading-lg"></span>
+  //       <span className="loading loading-ball loading-lg"></span>
+  //     </div>
+  //   );
+  // }
+  const handleSignup = (e) => {
     e.preventDefault();
-    login(loginInfo);
+    console.log("SIGNup INFO :", signupInfo);
+    signup(signupInfo);
   };
+
   return (
     <div className="my-201 m-auto my-20 flex h-[700px] w-4/5 items-center justify-center bg-red-50 rounded-2xl">
       <div className="flex w-full justify-between gap-x-4 h-full">
@@ -43,31 +60,43 @@ const LoginPage = () => {
         </div>
         {/* Login Info */}
         <div className="w-full lg:w-1/2   h-full flex items-center justify-center rounded-2xl flex-col bg-green-50">
-          <div className="w-full flex flex-col items-center justify-center gap-y-1  h-full">
+          <div className="w-full flex flex-col items-center justify-center gap-y-1  h-full text-center">
             <h1 className=" text-4xl tracking-wider mb-10 animate-bounce font-black ">
               Let's Be Together
             </h1>
             <form
               className="flex flex-col items-center justify-center gap-y-4 w-full"
-              onSubmit={handleLogin}
+              onSubmit={handleSignup}
             >
               <input
                 type="text"
+                placeholder="Funll Name"
+                className="input w-full max-w-xs h-20 bg-green-100"
+                value={signupInfo.fullName}
+                onChange={(e) =>
+                  setSignupInfo((prev) => ({
+                    ...prev,
+                    fullName: e.target.value,
+                  }))
+                }
+              />
+              <input
+                type="email"
                 placeholder="welcome@gmail.com"
                 className="input w-full max-w-xs h-20 bg-green-100"
-                value={loginInfo.email}
+                value={signupInfo.email}
                 onChange={(e) =>
-                  setLoginInfo((prev) => ({ ...prev, email: e.target.value }))
+                  setSignupInfo((prev) => ({ ...prev, email: e.target.value }))
                 }
               />
               <div className="w-full max-w-xs relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="******"
+                  placeholder="New Password"
                   className="input w-full max-w-xs h-20 bg-green-100"
-                  value={loginInfo.password}
+                  value={signupInfo.password}
                   onChange={(e) =>
-                    setLoginInfo((prev) => ({
+                    setSignupInfo((prev) => ({
                       ...prev,
                       password: e.target.value,
                     }))
@@ -88,8 +117,9 @@ const LoginPage = () => {
               <button
                 className="btn btn-wide tracking-wider bg-green-200 border-none"
                 type="submit"
+                disabled={isSignupLoading}
               >
-                login
+                {isSignupLoading ? "Signing..." : "Sign up"}
               </button>
             </form>
             <Link

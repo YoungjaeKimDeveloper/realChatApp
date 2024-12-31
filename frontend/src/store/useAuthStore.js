@@ -29,15 +29,16 @@ export const useAuthStore = create((set, get) => ({
     }
   },
   signup: async (data) => {
+    set({ isSignupLoading: true });
     try {
-      set({ isSignupLoading: true });
       const response = await axiosInstance.post("/auth/signup", data);
-      set({ authUser: response.data.user });
+      console.log("백엔드 응답:", response);
+      set({ authUser: response.data.newUser });
 
-      toast.success(`Welcome ${response.data.fullName}`);
+      toast.success(`Welcome ${response.data.newUser.fullName}`);
     } catch (error) {
-      console.error(`FAILED TO LOGIN, ${error.message}`);
-      toast.error("FAILED TO signup: ", error.message);
+      console.log("SIGN UP ERROR", error?.response?.data?.message);
+      toast.error(`${error.response.data.message}`);
     } finally {
       set({ isSignupLoading: false });
     }
