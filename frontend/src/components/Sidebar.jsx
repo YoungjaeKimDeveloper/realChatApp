@@ -1,0 +1,44 @@
+import React, { useEffect } from "react";
+import { Contact } from "lucide-react";
+import { useChatStore } from "../store/useChatStore";
+const Sidebar = () => {
+  const { users, isUserLoading, getUsers } = useChatStore();
+  useEffect(() => {
+    getUsers();
+  }, [getUsers]);
+  if (isUserLoading) {
+    return <p>Loading..</p>;
+  }
+
+  console.log(users);
+  return (
+    <div className="bg-red-200 w-1/4 rounded-xl px-2 h-full">
+      <div className="flex items-center gap-x-2 py-4 rounded-xl">
+        <Contact size={26} />
+        <h1 className="font-semibold text-2xl">Contact</h1>
+      </div>
+      <div className="user-list gap-x-4 flex w-full  gap-4  flex-col">
+        <div className="w-full flex flex-col gap-y-4">
+          {users?.map((user) => (
+            <div
+              key={user._id}
+              className="user tester flex items-center gap-x-2 hover:cursor-pointer"
+            >
+              <img
+                src="../../public/avartar.png"
+                alt="user-profile"
+                className="size-10"
+              />
+              <div>
+                <p className="text-[12px]">{user.fullName}</p>
+                <p className="text-sm text-[10px]">Offline</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;
