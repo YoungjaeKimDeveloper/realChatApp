@@ -38,7 +38,7 @@ export const getConversation = async (req, res) => {
     if (!partnerId) {
       return res
         .status(400)
-        .json({ success: false, message: "CANNOT FIDN THE PARTNER ID ❌" });
+        .json({ success: false, message: "CANNOT FINDTHE PARTNER ID ❌" });
     }
     const conversation = await Message.find({
       $or: [
