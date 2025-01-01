@@ -21,7 +21,7 @@ const ChatInput = ({ styleName }) => {
   console.log("conversation", conversations);
   return (
     <div
-      className={`${styleName} row-span-1 col-span-3 bg-pink-100 h-[538px] overflow-auto `}
+      className={`${styleName} row-span-1 col-span-3 bg-pink-100 h-[538px] overflow-auto px-4`}
     >
       {conversations?.map((conversation) =>
         conversation.senderId == authUser._id ? (
@@ -57,13 +57,16 @@ const ChatInput = ({ styleName }) => {
                 />
               </div>
             </div>
-            <div className="chat-header">
-              {selectedUser.fullName}
-              <time className="text-xs opacity-50">Time</time>
-            </div>
+            <div className="chat-header"></div>
             <div className="chat-bubble">
+              {conversation.image && (
+                <img
+                  src={conversation.image}
+                  alt="chatting-image"
+                  className="size-40"
+                />
+              )}
               {conversation.text}
-              <img src={conversation.image} alt="File Iamge" />
             </div>
             <time className="text-xs opacity-50">12:46</time>
           </div>
