@@ -29,7 +29,7 @@ const App = () => {
   // if (!authUser) {
   //   return <p>Bug</p>;
   // }
-  console.log("AUTH USER", authUser?._id);
+
   return (
     <div>
       <Navbar />

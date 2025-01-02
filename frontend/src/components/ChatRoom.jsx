@@ -4,28 +4,32 @@ import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 const ChatInput = ({ styleName }) => {
   const {
-    getConverstaion,
     isLoadingConversation,
-    conversations,
     selectedUser,
+    listeningRealTimeMessage,
+    unListeningRealTimeMessage,
+    messages,
+    getMessages,
   } = useChatStore();
-  const { authUser } = useAuthStore();
+  const { authUser, onlineUsers } = useAuthStore();
   // GET THE CONVERSAION
   useEffect(() => {
-    getConverstaion();
-  }, [getConverstaion]);
+    listeningRealTimeMessage();
+    getMessages(selectedUser);
+    return () => unListeningRealTimeMessage();
+  }, [getMessages, listeningRealTimeMessage, unListeningRealTimeMessage]);
 
   if (isLoadingConversation) {
     return <p>Loading...</p>;
   }
-  console.log("conversation", conversations);
+  console.log(messages);
   return (
     <div
       className={`${styleName} row-span-1 col-span-3 bg-pink-100 h-[538px] overflow-auto px-4`}
     >
-      {conversations?.map((conversation) =>
-        conversation.senderId == authUser._id ? (
-          <div className="chat chat-end">
+      {messages?.map((message, index) =>
+        message.senderId == authUser._id ? (
+          <div className="chat chat-end" key={index}>
             <div className="chat-image avatar">
               <div className="w-10 rounded-full">
                 <img
@@ -36,19 +40,19 @@ const ChatInput = ({ styleName }) => {
             </div>
             <div className="chat-header"></div>
             <div className="chat-bubble">
-              {conversation.image && (
+              {message.image && (
                 <img
-                  src={conversation.image}
+                  src={message.image}
                   alt="chatting-image"
                   className="size-40"
                 />
               )}
-              {conversation.text}
+              {message.text}
             </div>
             <time className="text-xs opacity-50">12:46</time>
           </div>
         ) : (
-          <div className="chat chat-start">
+          <div className="chat chat-start" key={index}>
             <div className="chat-image avatar">
               <div className="w-10 rounded-full">
                 <img
@@ -59,14 +63,14 @@ const ChatInput = ({ styleName }) => {
             </div>
             <div className="chat-header"></div>
             <div className="chat-bubble">
-              {conversation.image && (
+              {message.image && (
                 <img
-                  src={conversation.image}
+                  src={message.image}
                   alt="chatting-image"
                   className="size-40"
                 />
               )}
-              {conversation.text}
+              {message.text}
             </div>
             <time className="text-xs opacity-50">12:46</time>
           </div>

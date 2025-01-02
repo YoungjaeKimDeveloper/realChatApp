@@ -20,8 +20,6 @@ const ChatInput = ({ styleName }) => {
     };
   };
 
-  console.log(message);
-
   const sendingMessage = async (e) => {
     try {
       e.preventDefault();

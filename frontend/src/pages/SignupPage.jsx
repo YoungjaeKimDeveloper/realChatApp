@@ -33,7 +33,6 @@ const LoginPage = () => {
   // }
   const handleSignup = (e) => {
     e.preventDefault();
-    console.log("SIGNup INFO :", signupInfo);
     signup(signupInfo);
   };
 

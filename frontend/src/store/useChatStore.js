@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import axiosInstance from "../../lib/axiosInstance";
 import { toast } from "react-toastify";
+import { useAuthStore } from "./useAuthStore";
 
 export const useChatStore = create((set, get) => ({
   // State
   users: null,
   selectedUser: null,
   messages: [],
-  conversations: null,
   // State - Loading
   isUserLoading: false,
   isLoadingConversation: false,
@@ -20,7 +20,6 @@ export const useChatStore = create((set, get) => ({
       if (response.status === 200) {
         set({ users: response.data.users });
       }
-      toast.success("FETCHING USERS ✅");
     } catch (error) {
       set({ users: null });
       console.error("FAILED TO FETCH USERS", error?.response?.data?.message);
@@ -41,7 +40,7 @@ export const useChatStore = create((set, get) => ({
       if (res.status === 200) {
         set((state) => [...state.messages, newMessage]);
       }
-      toast.success("MESSAGE HAS BEEN SENT TO ❤️");
+      toast.success(" BEEN SENT TO ❤️");
     } catch (error) {
       console.error(
         `"FAILED TO SEND MESSAGE ❌ : ${error?.response?.data?.message}"`
@@ -50,17 +49,14 @@ export const useChatStore = create((set, get) => ({
     }
     set({ isSendingMessage: false });
   },
-  getConverstaion: async () => {
-    const { selectedUser } = get();
-    console.log("SELECTED USER : ", selectedUser._id);
+  getMessages: async (userId) => {
     try {
       set({ isLoadingConversation: true });
       const res = await axiosInstance.get(
-        `/message/conversation/${selectedUser._id}`
+        `/message/conversation/${userId._id}`
       );
       if (res.status === 200) {
-        set({ conversations: res.data.conversation });
-        toast.success(`SUCCEED TO GET CONVERSATION✅`);
+        set({ messages: res.data.conversation });
       }
     } catch (error) {
       console.error(
@@ -72,6 +68,22 @@ export const useChatStore = create((set, get) => ({
     } finally {
       set({ isLoadingConversation: false });
     }
+  },
+  listeningRealTimeMessage: () => {
+    const { selectedUser } = get();
+    if (!selectedUser) return;
+    const socket = useAuthStore.getState().clientSocket;
+    // tood : optimize this one later
+    socket.on("newMessage", (newMessage) => {
+      console.log("뉴 메세지를받았습니다시빨");
+      set({
+        messages: [...get().messages, newMessage],
+      });
+    });
+  },
+  unListeningRealTimeMessage: () => {
+    const socket = useAuthStore.getState().clientSocket;
+    socket.off("newMessage");
   },
   selectUser: (user) => {
     set({ selectedUser: user });

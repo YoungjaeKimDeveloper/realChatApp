@@ -6,7 +6,7 @@ export const generateToken = (userId, res) => {
     const token = jwt.sign({ userId: userId }, process.env.SECRET_KEY, {
       expiresIn: "7d",
     });
-    console.log("GENERATED THE TOKEN ✅");
+
     res.cookie("jwt", token, {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true, //prvent XSS attacks cross-site scripting attacks

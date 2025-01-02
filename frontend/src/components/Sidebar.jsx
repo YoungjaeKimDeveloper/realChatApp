@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { Contact } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
+import { useAuthStore } from "../store/useAuthStore";
 const Sidebar = () => {
   const { users, isUserLoading, getUsers, selectUser, selectedUser } =
     useChatStore();
+  const { onlineUsers } = useAuthStore();
   useEffect(() => {
     getUsers();
   }, [getUsers]);
@@ -26,13 +28,17 @@ const Sidebar = () => {
               onClick={() => selectUser(user)}
             >
               <img
-                src={`${user.profilePic}` || "||../../public/avartar.png"}
+                src={`${user.profilePic}` || "../../public/avartar.png"}
                 alt="user-profile"
                 className="size-10 rounded-full"
               />
               <div>
                 <p className="text-[12px]">{user.fullName}</p>
-                <p className="text-sm text-[10px]">Offline</p>
+                {onlineUsers?.includes(user._id) ? (
+                  <p className="text-green-400 font-bold">online</p>
+                ) : (
+                  <p className="text-red-400 font-bold">offline</p>
+                )}
               </div>
             </div>
           ))}

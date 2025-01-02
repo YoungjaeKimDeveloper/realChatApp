@@ -1,4 +1,5 @@
 import cloudinary from "../lib/cloudinary.js";
+import { getReceiverSocketId, io } from "../lib/socketSetting.js";
 import Message from "../models/Message.model.js";
 import { User } from "../models/User.model.js";
 
@@ -93,9 +94,19 @@ export const sendMessage = async (req, res) => {
       text: text,
       image: imageUrl?.secure_url,
     });
+
+    // Add the real time meessage functio before communicate it.
+    const receiverSocketId = getReceiverSocketId(partner_id);
+    console.log("receiverSocketId", receiverSocketId);
+    // If user is online
+    if (receiverSocketId) {
+      console.log("USER IS LOGGED IN✅");
+      io.to(receiverSocketId).emit("Newmessage", newMessage);
+      console.log("발송되는 메시지", newMessage);
+    }
     return res.status(201).json({ success: true, newMessage: newMessage });
   } catch (error) {
-    console.error("FAILED IN sendMessage ❌", error.message);
+    console.error("endMessage ❌", error.message);
     return res.status(500).json({
       success: false,
       message: `FAILED TO SEND MESSAGE ${error.message}`,
