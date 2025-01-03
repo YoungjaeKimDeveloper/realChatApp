@@ -30,6 +30,7 @@ export const useChatStore = create((set, get) => ({
   },
   // Sending Message Fuck you
   sendMessage: async (newMessage) => {
+    const { messages } = get();
     try {
       set({ isSendingMessage: true });
       const { selectedUser } = get();
@@ -37,9 +38,7 @@ export const useChatStore = create((set, get) => ({
         `/message/send/${selectedUser._id}`,
         newMessage
       );
-      if (res.status === 200) {
-        set((state) => [...state.messages, newMessage]);
-      }
+      set((state) =>({messages:[...state.messages, newMessage]}));
 
       toast.success(" BEEN SENT TO ❤️");
     } catch (error) {
@@ -47,8 +46,8 @@ export const useChatStore = create((set, get) => ({
         `"FAILED TO SEND MESSAGE ❌ : ${error?.response?.data?.message}"`
       );
     } finally {
+      set({ isSendingMessage: false });
     }
-    set({ isSendingMessage: false });
   },
   getMessages: async (userId) => {
     try {

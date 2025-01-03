@@ -18,6 +18,7 @@ const ChatInput = ({ styleName }) => {
   useEffect(() => {
     listeningRealTimeMessage();
     getMessages(selectedUser);
+    console.log("선택된 유저", selectedUser._id);
     // return () => unListeningRealTimeMessage();
   }, [getMessages, listeningRealTimeMessage, unListeningRealTimeMessage]);
 
@@ -36,7 +37,7 @@ const ChatInput = ({ styleName }) => {
       className={`${styleName} row-span-1 col-span-3 bg-pink-100 h-[538px] overflow-auto px-4`}
     >
       {messages?.map((message, index) =>
-        message.senderId == authUser._id ? (
+        message.senderId !== selectedUser._id ? (
           <div className="chat chat-end" key={index} ref={messageEndRef}>
             <div className="chat-image avatar">
               <div className="w-10 rounded-full">
