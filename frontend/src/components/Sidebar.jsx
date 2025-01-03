@@ -12,6 +12,7 @@ const Sidebar = () => {
   if (isUserLoading) {
     return <p>Loading..</p>;
   }
+  console.log("Online Users From Sidebar", onlineUsers);
   console.log(selectedUser);
   return (
     <div className="bg-red-200 w-[400px] rounded-xl px-2 h-full overflow-auto">

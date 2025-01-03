@@ -9,7 +9,7 @@ const server = createServer(app);
 // 2개
 // onlineUser = {userId:SocketId}
 const onlineUsers = {};
-2;
+
 export function getReceiverSocketId(userId) {
   // will return socketId
   return onlineUsers[userId];
@@ -24,11 +24,13 @@ const io = new Server(server, {
 // SOCKET CONNECTION
 io.on("connection", (socket) => {
   console.info(`${socket.id} is connected ✅`);
+  console.log("Online Users", onlineUsers);
   const userID = socket.handshake.query.userID;
-  console.log("✅HANDSHAKE INFO", userID);
-  if (userID) onlineUsers[userID] = socket.id;
-  // Send the notificaiton to the clients
-  // onlineUser = {userId:SocketId}
+
+  if (userID) {
+    console.log("⭐️ OnlineUsers", onlineUsers);
+    onlineUsers[userID] = socket.id;
+  }
   io.emit("updateOnlineUsersID", Object.keys(onlineUsers));
   // Event base
   socket.on("disconnect", () => {

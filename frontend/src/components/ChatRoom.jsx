@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Send, Images } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 const ChatInput = ({ styleName }) => {
@@ -10,14 +9,23 @@ const ChatInput = ({ styleName }) => {
     unListeningRealTimeMessage,
     messages,
     getMessages,
+    sendMessage,
   } = useChatStore();
+
   const { authUser, onlineUsers } = useAuthStore();
+  const messageEndRef = useRef(null);
   // GET THE CONVERSAION
   useEffect(() => {
     listeningRealTimeMessage();
     getMessages(selectedUser);
-    return () => unListeningRealTimeMessage();
+    // return () => unListeningRealTimeMessage();
   }, [getMessages, listeningRealTimeMessage, unListeningRealTimeMessage]);
+
+  useEffect(() => {
+    if (messageEndRef.current && messages) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   if (isLoadingConversation) {
     return <p>Loading...</p>;
@@ -29,7 +37,7 @@ const ChatInput = ({ styleName }) => {
     >
       {messages?.map((message, index) =>
         message.senderId == authUser._id ? (
-          <div className="chat chat-end" key={index}>
+          <div className="chat chat-end" key={index} ref={messageEndRef}>
             <div className="chat-image avatar">
               <div className="w-10 rounded-full">
                 <img
@@ -56,7 +64,7 @@ const ChatInput = ({ styleName }) => {
             <div className="chat-image avatar">
               <div className="w-10 rounded-full">
                 <img
-                  alt="Tailwind CSS chat bubble component"
+                  alt="Tailwind CSS ch촘체촘at bubble component"
                   src={selectedUser.profilePic}
                 />
               </div>

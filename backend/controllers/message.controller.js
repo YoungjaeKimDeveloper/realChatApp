@@ -94,16 +94,15 @@ export const sendMessage = async (req, res) => {
       text: text,
       image: imageUrl?.secure_url,
     });
-
     // Add the real time meessage functio before communicate it.
     const receiverSocketId = getReceiverSocketId(partner_id);
-    console.log("receiverSocketId", receiverSocketId);
     // If user is online
+    console.log("❤️ReciverSocketID", receiverSocketId);
     if (receiverSocketId) {
-      console.log("USER IS LOGGED IN✅");
-      io.to(receiverSocketId).emit("Newmessage", newMessage);
-      console.log("발송되는 메시지", newMessage);
+      console.log("Reciver ID IS EXISTED!");
     }
+    io.to(receiverSocketId).emit("Newmessage", newMessage);
+
     return res.status(201).json({ success: true, newMessage: newMessage });
   } catch (error) {
     console.error("endMessage ❌", error.message);

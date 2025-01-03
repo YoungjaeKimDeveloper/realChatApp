@@ -108,6 +108,7 @@ export const useAuthStore = create((set, get) => ({
       });
       // socket을 상태에 저장
       socket.connect();
+
       set({ clientSocket: socket });
 
       // clientSocket이 정상적으로 초기화된 후에 이벤트 리스너 설정

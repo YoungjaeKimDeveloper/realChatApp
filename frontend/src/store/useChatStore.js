@@ -40,6 +40,7 @@ export const useChatStore = create((set, get) => ({
       if (res.status === 200) {
         set((state) => [...state.messages, newMessage]);
       }
+
       toast.success(" BEEN SENT TO ❤️");
     } catch (error) {
       console.error(
@@ -57,6 +58,7 @@ export const useChatStore = create((set, get) => ({
       );
       if (res.status === 200) {
         set({ messages: res.data.conversation });
+        get().listeningRealTimeMessage();
       }
     } catch (error) {
       console.error(
@@ -70,15 +72,19 @@ export const useChatStore = create((set, get) => ({
     }
   },
   listeningRealTimeMessage: () => {
+    console.log("메세지를 실시간으로 듣습니다");
     const { selectedUser } = get();
-    if (!selectedUser) return;
+
     const socket = useAuthStore.getState().clientSocket;
+    socket.off("Newmessage");
     // tood : optimize this one later
-    socket.on("newMessage", (newMessage) => {
-      console.log("뉴 메세지를받았습니다시빨");
-      set({
-        messages: [...get().messages, newMessage],
-      });
+    console.log("ListeningREalItmeMessage", socket);
+    socket.on("Newmessage", (newMessage) => {
+      console.log("뉴 메세지를받았습니다");
+      // if (newMessage.senderId !== selectedUser._id) return;
+      set((state) => ({
+        messages: [...state.messages, newMessage],
+      }));
     });
   },
   unListeningRealTimeMessage: () => {
