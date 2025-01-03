@@ -5,10 +5,10 @@ const NoChat = () => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center bg-blue-50 text-center">
       <MessageCircleHeart
-        className="lg:size-40 animate-bounce "
+        className="size-10 lg:size-40 animate-bounce "
         color="#de58a7"
       />
-      <h1 className="tracking-wider font-semibold text-2xl ">
+      <h1 className="tracking-wider font-semibold text-sm mt-4  lg:text-2xl ">
         Let's get started new conversation
       </h1>
     </div>

@@ -6,7 +6,7 @@ const ChatHeader = () => {
   const { selectedUser, unSelectUser } = useChatStore();
 
   return (
-    <div className={`row-span-1 col-span-3 `}>
+    <div className="row-span-1 col-span-3 w-[100%] h-[80px]">
       <div className="flex items-center gap-x-2 justify-between bg-red-100 p-4">
         <div className=" flex items-center gap-x-2">
           <div className="avatar">
@@ -18,7 +18,7 @@ const ChatHeader = () => {
           </div>
           <div>
             {selectedUser.fullName}
-            <p>online</p>
+            <p>online </p>
           </div>
         </div>
         <CircleX className="hover:cursor-pointer" onClick={unSelectUser} />

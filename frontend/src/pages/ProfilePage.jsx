@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { Pencil } from "lucide-react";
+import { Pencil, LoaderCircle } from "lucide-react";
 import Skeleton from "../skeleton/Skeleton";
 const ProfilePage = () => {
   const { authUser, isProfileUploading, updateProfilePic } = useAuthStore();
@@ -32,7 +32,7 @@ const ProfilePage = () => {
             Your profile information
           </p>
           {isProfileUploading ? (
-            <Skeleton />
+            <LoaderCircle className="animate-spin size-20" />
           ) : (
             <div className="relative mt-4">
               <img

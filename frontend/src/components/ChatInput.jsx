@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Send, Images } from "lucide-react";
+import { Send, Images, MousePointerBan } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
 const ChatInput = ({ styleName }) => {
-  const { sendMessage } = useChatStore();
+  const { sendMessage, isSendingMessage } = useChatStore();
 
-  const [message, setMessage, isSendingMessage] = useState({
+  const [message, setMessage] = useState({
     text: "",
     image: "",
   });
@@ -29,6 +29,7 @@ const ChatInput = ({ styleName }) => {
         text: "",
         image: "",
       });
+      setPreviewImage(null);
     } catch (error) {
       console.error(`FAILED TO SEND THE MESSAGE ❌ ${error.message}`);
     }
@@ -50,7 +51,7 @@ const ChatInput = ({ styleName }) => {
             <Images />
           </label>
           <button disabled={isSendingMessage} onClick={sendingMessage}>
-            <Send />
+            {isSendingMessage ? <MousePointerBan /> : <Send />}
           </button>
         </div>
         <div>
