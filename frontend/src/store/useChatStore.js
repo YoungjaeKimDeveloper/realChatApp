@@ -36,14 +36,12 @@ export const useChatStore = create((set, get) => ({
       const { selectedUser } = get();
       const res = await axiosInstance.post(
         `/message/send/${selectedUser._id}`,
-        newMessage
+        newMessage,
       );
-      set((state) =>({messages:[...state.messages, newMessage]}));
-
-      toast.success(" BEEN SENT TO ❤️");
+      set((state) => ({ messages: [...state.messages, newMessage] }));
     } catch (error) {
       console.error(
-        `"FAILED TO SEND MESSAGE ❌ : ${error?.response?.data?.message}"`
+        `"FAILED TO SEND MESSAGE ❌ : ${error?.response?.data?.message}"`,
       );
     } finally {
       set({ isSendingMessage: false });
@@ -53,7 +51,7 @@ export const useChatStore = create((set, get) => ({
     try {
       set({ isLoadingConversation: true });
       const res = await axiosInstance.get(
-        `/message/conversation/${userId._id}`
+        `/message/conversation/${userId._id}`,
       );
       if (res.status === 200) {
         set({ messages: res.data.conversation });
@@ -61,10 +59,10 @@ export const useChatStore = create((set, get) => ({
       }
     } catch (error) {
       console.error(
-        `FAILED TO GET CONVERSATION: ❌ ${error?.response?.data?.message}`
+        `FAILED TO GET CONVERSATION: ❌ ${error?.response?.data?.message}`,
       );
       toast.error(
-        `FAILED TO GET CONVERSATION: ❌ ${error?.response?.data?.message}`
+        `FAILED TO GET CONVERSATION: ❌ ${error?.response?.data?.message}`,
       );
     } finally {
       set({ isLoadingConversation: false });

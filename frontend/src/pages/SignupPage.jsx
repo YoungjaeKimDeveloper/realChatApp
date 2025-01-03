@@ -22,33 +22,24 @@ const LoginPage = () => {
     password: "",
   });
 
-  // if (isSignupLoading) {
-  //   return (
-  //     <div className="h-screen w-screen flex items-center justify-center">
-  //       <span className="loading loading-ball loading-lg"></span>
-  //       <span className="loading loading-ball loading-lg"></span>
-  //       <span className="loading loading-ball loading-lg"></span>
-  //     </div>
-  //   );
-  // }
   const handleSignup = (e) => {
     e.preventDefault();
     signup(signupInfo);
   };
 
   return (
-    <div className="my-201 m-auto my-20 flex h-[700px] w-4/5 items-center justify-center bg-red-50 rounded-2xl">
-      <div className="flex w-full justify-between gap-x-4 h-full">
+    <div className="my-201 m-auto my-20 flex h-[700px] w-4/5 items-center justify-center rounded-2xl bg-red-50">
+      <div className="flex h-full w-full justify-between gap-x-4">
         {/* Right Pic */}
         <div
-          className="w-1/2  rounded-2xl relative transition-all duration-700  hidden lg:block"
+          className="relative hidden w-1/2 rounded-2xl transition-all duration-700 lg:block"
           onMouseEnter={toggleText}
           onMouseLeave={toggleText}
         >
           <img
             src="../../public/community.jpg"
             alt="right-back-image"
-            className={`w-full h-full  object-cover p-4 rounded-2xl ${showText && "opacity-50 grayscale"} transition-all duration-700 `}
+            className={`h-full w-full rounded-2xl object-cover p-4 ${showText && "opacity-50 grayscale"} transition-all duration-700`}
           />
 
           <p
@@ -58,19 +49,19 @@ const LoginPage = () => {
           </p>
         </div>
         {/* Login Info */}
-        <div className="w-full lg:w-1/2   h-full flex items-center justify-center rounded-2xl flex-col bg-green-50">
-          <div className="w-full flex flex-col items-center justify-center gap-y-1  h-full text-center">
-            <h1 className=" text-4xl tracking-wider mb-10 animate-bounce font-black ">
+        <div className="flex h-full w-full flex-col items-center justify-center rounded-2xl bg-green-50 lg:w-1/2">
+          <div className="flex h-full w-full flex-col items-center justify-center gap-y-1 text-center">
+            <h1 className="mb-10 animate-bounce text-2xl font-black tracking-wider md:text-4xl">
               Let's Be Together
             </h1>
             <form
-              className="flex flex-col items-center justify-center gap-y-4 w-full"
+              className="flex w-full flex-col items-center justify-center gap-y-4"
               onSubmit={handleSignup}
             >
               <input
                 type="text"
                 placeholder="Funll Name"
-                className="input w-full max-w-xs h-20 bg-green-100"
+                className="input h-20 w-full max-w-xs bg-green-100"
                 value={signupInfo.fullName}
                 onChange={(e) =>
                   setSignupInfo((prev) => ({
@@ -82,17 +73,17 @@ const LoginPage = () => {
               <input
                 type="email"
                 placeholder="welcome@gmail.com"
-                className="input w-full max-w-xs h-20 bg-green-100"
+                className="input h-20 w-full max-w-xs bg-green-100"
                 value={signupInfo.email}
                 onChange={(e) =>
                   setSignupInfo((prev) => ({ ...prev, email: e.target.value }))
                 }
               />
-              <div className="w-full max-w-xs relative">
+              <div className="relative w-full max-w-xs">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="New Password"
-                  className="input w-full max-w-xs h-20 bg-green-100"
+                  className="input h-20 w-full max-w-xs bg-green-100"
                   value={signupInfo.password}
                   onChange={(e) =>
                     setSignupInfo((prev) => ({
@@ -103,18 +94,18 @@ const LoginPage = () => {
                 />
                 {showPassword ? (
                   <Eye
-                    className="absolute top-[35%] right-2 cursor-pointer transition-all "
+                    className="absolute right-2 top-[35%] cursor-pointer transition-all"
                     onClick={toggleEyes}
                   />
                 ) : (
                   <EyeClosed
-                    className="absolute top-[35%] right-2 cursor-pointer transition-all"
+                    className="absolute right-2 top-[35%] cursor-pointer transition-all"
                     onClick={toggleEyes}
                   />
                 )}
               </div>
               <button
-                className="btn btn-wide tracking-wider bg-green-200 border-none"
+                className="btn btn-wide border-none bg-green-200 tracking-wider"
                 type="submit"
                 disabled={isSignupLoading}
               >
@@ -126,7 +117,7 @@ const LoginPage = () => {
               className="mt-10 flex flex-col items-center gap-y-4"
             >
               <p>Are you member with us?</p>
-              <p className="font-semibold tracking-wider  text-sm text-pink-200">
+              <p className="text-sm font-semibold tracking-wider text-pink-200">
                 Login Page
               </p>
             </Link>

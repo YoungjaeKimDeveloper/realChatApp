@@ -37,21 +37,21 @@ const ChatInput = ({ styleName }) => {
   if (isLoadingConversation) {
     return (
       <div
-        className={`${styleName} row-span-1 col-span-3 bg-pink-100 h-[538px] overflow-auto px-4 flex items-center justify-center`}
+        className={`${styleName} col-span-3 row-span-1 flex h-[538px] items-center justify-center overflow-auto bg-pink-100 px-4`}
       >
-        <LoaderCircle className="animate-spin size-20" />
+        <LoaderCircle className="size-20 animate-spin" />
       </div>
     );
   }
   console.log(messages);
   return (
     <div
-      className={`${styleName} row-span-1 col-span-3 bg-pink-100 h-[390px] sm:h-[537px] overflow-auto px-4`}
+      className={`${styleName} sm:h-807px] col-span-3 row-span-1 h-[704px] overflow-auto bg-pink-100 px-4`}
     >
       {messages?.map((message, index) =>
         message.senderId !== selectedUser._id ? (
           <div className="chat chat-end" key={index} ref={messageEndRef}>
-            <div className="chat-image avatar">
+            <div className="avatar chat-image">
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS chat bubble component"
@@ -74,7 +74,7 @@ const ChatInput = ({ styleName }) => {
           </div>
         ) : (
           <div className="chat chat-start" key={index}>
-            <div className="chat-image avatar">
+            <div className="avatar chat-image">
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS ch촘체촘at bubble component"
@@ -95,7 +95,7 @@ const ChatInput = ({ styleName }) => {
             </div>
             <time className="text-xs opacity-50">12:46</time>
           </div>
-        )
+        ),
       )}
     </div>
   );

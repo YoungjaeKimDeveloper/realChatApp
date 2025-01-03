@@ -10,11 +10,11 @@ const HomePage = () => {
   const { selectedUser } = useChatStore();
   return (
     // 전체 컨테이너
-    <div className="h-screen p-10 w-scree flex  justify-center">
+    <div className="w-scree flex h-screen justify-center">
       {/* Main-Container */}
-      <div className="bg-red-300 w-[80%] h-[80%] rounded-2xl flex">
+      <div className="flex h-[864px] w-[1024px] rounded-2xl  mt-4">
         {/* Sidebar */}
-        <Sidebar style={"w-[10%] md:w-[20%] h-full bg-red-200 "} />
+        <Sidebar style={"w-[20%] md:w-[25%] h-full] bg-red-500 "} />
         {/* Main */}
         {selectedUser ? <ChatContainer /> : <NoChat />}
       </div>

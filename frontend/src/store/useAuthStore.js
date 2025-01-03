@@ -28,7 +28,7 @@ export const useAuthStore = create((set, get) => ({
       console.error("FAILED TO LOGIN [C] : ", error);
       toast.error(
         "FAILED TO LOGIN",
-        error?.response?.data?.message || "FAILED TO LOGIN"
+        error?.response?.data?.message || "FAILED TO LOGIN",
       );
       set({ authUser: null });
     } finally {
@@ -70,7 +70,7 @@ export const useAuthStore = create((set, get) => ({
     } catch (error) {
       console.log(
         "FAILED TO AUTH[C]: ",
-        error.response?.data?.message || error.message
+        error.response?.data?.message || error.message,
       );
       set({ authUser: null });
     } finally {
